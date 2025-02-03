@@ -1,3 +1,5 @@
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+/*
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -67,4 +69,33 @@ button:focus-visible {
   }
 }
 
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
+*/
+.flag-icon {
+  width: 20px;
+  height: 15px;
+  margin-right: 10px;
+}
+
+.dropbtn {
+  background-color: #218838; /* Verde por defecto */
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Hace que el menú desplegable tenga fondo blanco */
+.dropdown-menu {
+  background-color: white !important;
+  color: black !important;
+}
+
+.custom-profile-dropdown::after {
+  border-top-color: white !important; /* Cambia el color de la flecha a blanco */
+}
+
+header.navbar {
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+}

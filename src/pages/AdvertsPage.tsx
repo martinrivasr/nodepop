@@ -1,19 +1,17 @@
 
-import Pagination from "../components/Pagination/Pagination";
-import ProductList from "../components/ProductList/ProductList";
-import Footer from "../components/Footer/footer";
+import Pagination from "../components/Pagination";
+import ProductList from "../components/ProductList";
+import Footer from "../components/footer";
 import Filters from "../components/Filters";
 
 const AdvertsPage = () => {
   return (
     <div className="container-fluid pb-3">
       <div className="row g-3">
-        {/* Columna de filtros */}
         <div className="col-3">
-          <Filters /> {/* Usamos el componente de filtros aquí */}
+          <Filters />
         </div>
 
-        {/* Columna de productos */}
         <div className="col-9">
           <div className="mb-3">
             <Pagination />

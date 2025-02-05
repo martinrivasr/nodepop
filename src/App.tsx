@@ -1,18 +1,34 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Navbar from "./containers/Header/Navbar";
-import AdvertsPage from "./containers/AdvertsPage";
+import AdvertsPage from "./pages/AdvertsPage";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import { AuthProvider } from "./context/AuthContext";
+import PrivateRoute from "./components/PrivateRoute";
 
-const App = () => {
+
+
+
+function App() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<AdvertsPage />} />
-        <Route path="/login" element={<h1>Login Page</h1>} />
-        <Route path="*" element={<h1>404 - Page Not Found</h1>} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route
+            path="/adverts"
+            element={
+              <PrivateRoute>
+                <AdvertsPage />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<h1>404 - Page Not Found</h1>} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
-};
-
+}
 export default App;

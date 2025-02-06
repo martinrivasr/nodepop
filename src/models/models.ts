@@ -30,9 +30,17 @@ export interface SignupDto {
   export interface Advert {
     id: string;
     name: string;
+    owner?: string;
     sale: boolean;
     price: number;
     tags: Tag[];
     photoUrl?: string;
   }
-  
+
+  export interface FiltersType {
+    tag: string;
+    minPrice: string;
+    maxPrice: string;
+    name: string;
+    owner: string;
+  }

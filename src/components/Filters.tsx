@@ -1,15 +1,37 @@
 import React from "react";
+import { FiltersType } from "../models/models";
 
-const Filters = () => {
+interface FiltersProps {
+  filters: FiltersType;
+  onFilterChange: (newFilters: FiltersType) => void;
+}
+
+const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange }) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    onFilterChange({ ...filters, [name]: value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); // Evita que el formulario recargue la página
+    onFilterChange(filters); // Actualiza los filtros con el estado actual
+  };
+
   return (
     <aside className="filters bg-light border rounded p-3">
       <h2>Search</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="tag" className="form-label">
             Tag
           </label>
-          <select id="tag" className="form-select">
+          <select
+            id="tag"
+            name="tag"
+            className="form-select"
+            value={filters.tag}
+            onChange={handleInputChange}
+          >
             <option value="all">All</option>
             <option value="work">Work</option>
             <option value="lifestyle">Lifestyle</option>
@@ -18,36 +40,45 @@ const Filters = () => {
           </select>
         </div>
         <div className="mb-3">
-          <label htmlFor="min-price" className="form-label">
+          <label htmlFor="minPrice" className="form-label">
             Precio mínimo:
           </label>
           <input
             type="number"
-            id="min-price"
+            id="minPrice"
+            name="minPrice"
             className="form-control"
             placeholder="Precio mínimo"
+            value={filters.minPrice}
+            onChange={handleInputChange}
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="max-price" className="form-label">
+          <label htmlFor="maxPrice" className="form-label">
             Precio máximo:
           </label>
           <input
             type="number"
-            id="max-price"
+            id="maxPrice"
+            name="maxPrice"
             className="form-control"
             placeholder="Precio máximo"
+            value={filters.maxPrice}
+            onChange={handleInputChange}
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="product-name" className="form-label">
+          <label htmlFor="name" className="form-label">
             Nombre del producto:
           </label>
           <input
             type="text"
-            id="product-name"
+            id="name"
+            name="name"
             className="form-control"
             placeholder="Nombre del producto"
+            value={filters.name}
+            onChange={handleInputChange}
           />
         </div>
         <div className="mb-3">
@@ -57,8 +88,11 @@ const Filters = () => {
           <input
             type="text"
             id="owner"
+            name="owner"
             className="form-control"
             placeholder="Propietario"
+            value={filters.owner}
+            onChange={handleInputChange}
           />
         </div>
         <button type="submit" className="btn btn-primary w-100">

@@ -14,9 +14,9 @@ const SignupPage = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await signup({ email, password, username, name }); // Llamar a la API
+      await signup({ email, password, username, name }); 
       setMessage({ type: "success", text: "Usuario creado con éxito. Redirigiendo al login..." });
-      navigate("/login"); // Redirigir al login
+      navigate("/login"); 
     } catch (error) {
       setMessage({ type: "error", text: "Error al crear el usuario. Intenta nuevamente." });
     }

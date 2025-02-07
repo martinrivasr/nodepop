@@ -1,62 +1,139 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Pagination = () => {
+interface PaginationProps {
+  totalRecords: number;
+  limit: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  onLimitChange: (newLimit: number) => void;
+  onOrderChange: (order: string) => void;
+  sortField: string;
+  onSortFieldChange: (field: string) => void;
+}
+
+const Pagination: React.FC<PaginationProps> = ({
+  totalRecords,
+  limit,
+  currentPage,
+  onPageChange,
+  onLimitChange,
+  onOrderChange,
+  sortField,
+  onSortFieldChange,
+}) => {
+  const totalPages = Math.ceil(totalRecords / limit);
+  const [pageBatch, setPageBatch] = useState(0); // Batch de páginas visible (0 = 1-10, 1 = 11-20)
+
+  const maxVisiblePages = 10; // Máximo de páginas visibles por lote
+  const startPage = pageBatch * maxVisiblePages + 1; // Página inicial del lote
+  const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages); // Página final del lote
+
+  const handlePageChange = (page: number) => {
+    if (page > 0 && page <= totalPages) {
+      onPageChange(page);
+
+      // Cambiar el batch si la página está fuera del rango actual
+      if (page < startPage) {
+        setPageBatch((prev) => Math.max(prev - 1, 0));
+      } else if (page > endPage) {
+        setPageBatch((prev) => prev + 1);
+      }
+    }
+  };
+
+  const handleNextBatch = () => {
+    if (endPage < totalPages) {
+      setPageBatch((prev) => prev + 1);
+    }
+  };
+
+  const handlePrevBatch = () => {
+    if (startPage > 1) {
+      setPageBatch((prev) => Math.max(prev - 1, 0));
+    }
+  };
+
   return (
     <div className="d-flex flex-wrap align-items-center justify-content-between border-bottom pb-2 mb-3 bg-body-tertiary px-3 py-2">
-      {/* Filtros de orden y registros por página */}
       <div className="d-flex align-items-center gap-3">
         <select
           className="form-select text-primary"
           style={{ minWidth: "200px" }}
+          value={limit}
+          onChange={(e) => onLimitChange(Number(e.target.value))}
         >
-          <option value="10">Registros por página</option>
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
+          <option value="10">10 registros</option>
+          <option value="20">20 registros</option>
+          <option value="50">50 registros</option>
         </select>
 
         <select
           className="form-select text-primary"
           style={{ minWidth: "150px" }}
+          value={sortField}
+          onChange={(e) => onSortFieldChange(e.target.value)}
         >
-          <option value="asc">Ordenar</option>
-          <option value="asc">Ascendente</option>
-          <option value="desc">Descendente</option>
+          <option value="">Ordenar por</option>
+          <option value="name">Nombre</option>
+          <option value="price">Precio</option>
+          <option value="owner">Propietario</option>
         </select>
 
         <i
           className="bi bi-sort-up fs-4"
           style={{ cursor: "pointer" }}
           title="Orden ascendente"
+          onClick={() => onOrderChange("asc")}
         ></i>
         <i
           className="bi bi-sort-down fs-4"
           style={{ cursor: "pointer" }}
           title="Orden descendente"
+          onClick={() => onOrderChange("desc")}
         ></i>
       </div>
 
-      {/* Total de registros y paginación */}
       <div className="d-flex align-items-center gap-3">
-        <span className="text-muted">Total registros: <span className="text-info">999</span></span>
+        <span className="text-muted">Total registros: {totalRecords}</span>
         <nav aria-label="Page navigation">
           <ul className="pagination mb-0">
-            <li className="page-item disabled">
-              <a className="page-link text-secondary" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
+            <li className={`page-item ${startPage === 1 ? "disabled" : ""}`}>
+              <button
+                className="page-link text-secondary"
+                onClick={handlePrevBatch}
+              >
+                &laquo;
+              </button>
             </li>
-            <li className="page-item"><a className="page-link text-primary" href="#">1</a></li>
-            <li className="page-item"><a className="page-link text-primary" href="#">2</a></li>
-            <li className="page-item"><a className="page-link text-primary" href="#">3</a></li>
-            <li className="page-item">
-              <a className="page-link text-secondary" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
+            {Array.from({ length: endPage - startPage + 1 }, (_, i) => {
+              const page = startPage + i;
+              return (
+                <li
+                  key={page}
+                  className={`page-item ${
+                    currentPage === page ? "active" : ""
+                  }`}
+                >
+                  <button
+                    className="page-link text-primary"
+                    onClick={() => handlePageChange(page)}
+                  >
+                    {page}
+                  </button>
+                </li>
+              );
+            })}
+            <li className={`page-item ${endPage === totalPages ? "disabled" : ""}`}>
+              <button
+                className="page-link text-secondary"
+                onClick={handleNextBatch}
+              >
+                &raquo;
+              </button>
             </li>
           </ul>
         </nav>
-        <span className="text-muted">Total páginas: <span className="text-info">100</span></span>
+        <span className="text-muted">Total páginas: {totalPages}</span>
       </div>
     </div>
   );

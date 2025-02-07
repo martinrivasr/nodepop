@@ -1,5 +1,5 @@
 import React from "react";
-import { Advert } from "../models/models"; // Asegúrate de importar Advert
+import { Advert } from "../models/models";
 
 interface ProductListProps {
   adverts: Advert[];
@@ -11,17 +11,29 @@ const ProductList: React.FC<ProductListProps> = ({ adverts }) => {
       <div className="row">
         {adverts.map((product) => (
           <div className="col-12 mb-3" key={product.id}>
-            <div className="product bg-body-tertiary border rounded-3 p-3 d-flex align-items-center">
+            <div className="product bg-light border rounded-3 p-3 d-flex align-items-center">
+              {/* Imagen del producto */}
               <img
                 src={product.photoUrl || "/uploads/imagen.jpg"}
                 alt={`Foto del producto ${product.name}`}
                 className="product-image me-3"
-                style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                style={{ width: "120px", height: "120px", objectFit: "cover", borderRadius: "8px" }}
               />
-              <div className="product-details">
-                <h4 className="product-name">{product.name}</h4>
-                <p className="product-owner">Propietario: {product.owner || "N/A"}</p>
-                <p className="product-price">Precio: ${product.price}</p>
+
+              {/* Detalles del producto */}
+              <div className="product-details flex-grow-1">
+                <h4 className="product-name text-primary">{product.name}</h4>
+                <p className="product-owner">
+                  <strong>Propietario:</strong> {product.owner || "N/A"}
+                </p>
+                <p className="product-price">
+                  <strong>Precio:</strong> ${product.price}
+                </p>
+                <p className="product-sale">
+                  <strong>Tipo:</strong> {product.sale ? "Venta" : "Compra"}
+                </p>
+
+                {/* Tags */}
                 <div className="product-tags mb-2">
                   {product.tags.map((tag, index) => (
                     <span key={index} className="badge bg-primary me-1">
@@ -29,7 +41,11 @@ const ProductList: React.FC<ProductListProps> = ({ adverts }) => {
                     </span>
                   ))}
                 </div>
-                <button className="btn btn-primary">Comprar</button>
+
+                {/* Botón dinámico */}
+                <button className={`btn ${product.sale ? "btn-success" : "btn-warning"}`}>
+                  {product.sale ? "Comprar" : "Vender"}
+                </button>
               </div>
             </div>
           </div>

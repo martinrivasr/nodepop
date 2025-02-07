@@ -52,36 +52,39 @@ export const createAdvert = async (data: CreateAdvertDto): Promise<Advert> => {
     const response = await api.post<Advert>("/v1/adverts", formData);
     return response.data;
   };
-  
-  // Obtener anuncios
-  
-  export const getAdverts = async (filters: FiltersType): Promise<Advert[]> => {
-    // Crear un objeto de parámetros según la documentación de Swagger
-    const params: Record<string, string> = {};
-  
-    // Mapear los filtros a los parámetros soportados
-    if (filters.name) params.name = filters.name;
-    if (filters.minPrice) params.price = String(filters.minPrice);
-    if (filters.maxPrice) params.price = `${filters.minPrice},${filters.maxPrice}`;
-    if (filters.owner) params.owner = filters.owner;
-    if (filters.tag !== "all") params.tags = filters.tag;
-  
-    // Generar la URL con los parámetros (convertimos todo a string)
-    const queryString = new URLSearchParams(
-      Object.entries(params).reduce((acc, [key, value]) => {
-        acc[key] = String(value); // Convertir todos los valores a string
-        return acc;
-      }, {} as Record<string, string>)
-    ).toString();
-    console.log(queryString)
-    // Realizar la solicitud
-    const response = await api.get<Advert[]>(`/v1/adverts?${queryString}`);
-    return response.data;
-  };
-  
 
   // Eliminar un anuncio
   export const deleteAdvert = async (id: string): Promise<void> => {
     await api.delete(`/v1/adverts/${id}`);
   };
   
+
+  export interface AdvertsResponse {
+    adverts: Advert[]; // Lista de anuncios (array directo si el backend devuelve esto)
+    total?: number; // Total de registros (solo si el backend devuelve esta información)
+  }
+  
+  export const getAdverts = async (filters: FiltersType): Promise<Advert[]> => {
+    const params: Record<string, any> = {};
+  
+    if (filters.name) params.name = filters.name;
+    if (filters.minPrice && filters.maxPrice) {
+      params.price = [Number(filters.minPrice), Number(filters.maxPrice)];
+    }
+    if (filters.owner) params.owner = filters.owner;
+    if (filters.tag && filters.tag !== "all") params.tags = filters.tag;
+  
+    const response = await api.get<Advert[]>("/v1/adverts", { params });
+    return response.data; // Devuelve directamente la lista de anuncios
+  };
+
+  
+  const getUserNameById = async (userId: string): Promise<string> => {
+    try {
+      const response = await api.get(`/users/${userId}`);
+      return response.data.name; // Suponiendo que la API devuelve el nombre del usuario
+    } catch (err) {
+      console.error(`Error al obtener el nombre del usuario con ID ${userId}:`, err);
+      return "N/A";
+    }
+  };

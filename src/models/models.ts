@@ -30,7 +30,8 @@ export interface SignupDto {
   export interface Advert {
     id: string;
     name: string;
-    owner?: string;
+    owner?: string; // user ID
+    ownerName?: string; // Nombre del propietario
     sale: boolean;
     price: number;
     tags: Tag[];
@@ -38,9 +39,10 @@ export interface SignupDto {
   }
 
   export interface FiltersType {
-    tag: string;
-    minPrice: string;
-    maxPrice: string;
-    name: string;
-    owner: string;
+    tag?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    name?: string;
+    owner?: string;
   }
+  

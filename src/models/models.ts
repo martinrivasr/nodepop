@@ -20,7 +20,7 @@ export interface SignupDto {
     sale: boolean;
     price: number;
     tags: string[];
-    photo?: File; // Foto como archivo opcional
+    photo?: File | null; 
   }
   
   // Modelo para el esquema de tags
@@ -30,8 +30,8 @@ export interface SignupDto {
   export interface Advert {
     id: string;
     name: string;
-    owner?: string; // user ID
-    ownerName?: string; // Nombre del propietario
+    owner?: string;
+    ownerName?: string; // Nuevo campo para mostrar el nombre
     sale: boolean;
     price: number;
     tags: Tag[];

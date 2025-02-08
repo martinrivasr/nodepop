@@ -44,7 +44,7 @@ export const createAdvert = async (data: CreateAdvertDto): Promise<Advert> => {
     formData.append("name", data.name);
     formData.append("sale", data.sale.toString());
     formData.append("price", data.price.toString());
-    formData.append("tags", JSON.stringify(data.tags));
+    data.tags.forEach((tag) => formData.append("tags", tag))
     if (data.photo) {
       formData.append("photo", data.photo);
     }
@@ -60,8 +60,8 @@ export const createAdvert = async (data: CreateAdvertDto): Promise<Advert> => {
   
 
   export interface AdvertsResponse {
-    adverts: Advert[]; // Lista de anuncios (array directo si el backend devuelve esto)
-    total?: number; // Total de registros (solo si el backend devuelve esta información)
+    adverts: Advert[]; 
+    total?: number; 
   }
   
   export const getAdverts = async (filters: FiltersType): Promise<Advert[]> => {
@@ -78,13 +78,3 @@ export const createAdvert = async (data: CreateAdvertDto): Promise<Advert> => {
     return response.data; // Devuelve directamente la lista de anuncios
   };
 
-  
-  const getUserNameById = async (userId: string): Promise<string> => {
-    try {
-      const response = await api.get(`/users/${userId}`);
-      return response.data.name; // Suponiendo que la API devuelve el nombre del usuario
-    } catch (err) {
-      console.error(`Error al obtener el nombre del usuario con ID ${userId}:`, err);
-      return "N/A";
-    }
-  };

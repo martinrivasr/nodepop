@@ -14,7 +14,7 @@ const ProductList: React.FC<ProductListProps> = ({ adverts }) => {
             <div className="product bg-light border rounded-3 p-3 d-flex align-items-center">
               {/* Imagen del producto */}
               <img
-                src={product.photoUrl || "/uploads/imagen.jpg"}
+                src={product.photoUrl || "/imagen.jpg"}
                 alt={`Foto del producto ${product.name}`}
                 className="product-image me-3"
                 style={{ width: "120px", height: "120px", objectFit: "cover", borderRadius: "8px" }}
@@ -24,7 +24,7 @@ const ProductList: React.FC<ProductListProps> = ({ adverts }) => {
               <div className="product-details flex-grow-1">
                 <h4 className="product-name text-primary">{product.name}</h4>
                 <p className="product-owner">
-                  <strong>Propietario:</strong> {product.owner || "N/A"}
+                  <strong>Propietario:</strong> {product.ownerName || "N/A"}
                 </p>
                 <p className="product-price">
                   <strong>Precio:</strong> ${product.price}

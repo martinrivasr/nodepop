@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
 import ProductList from "../components/ProductList";
 import Filters from "../components/Filters";
-import Footer from "../components/Footer";
+import Footer from "../components/footer";
 import { getAdverts } from "../api";
 import { FiltersType, Advert } from "../models/models";
-import api from "../api"; // Asegúrate de tener el cliente API configurado
+
 
 const AdvertsPage = () => {
   const [adverts, setAdverts] = useState<Advert[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Estados para filtros, paginación y orden
   const [filters, setFilters] = useState<FiltersType>({
     tag: "all",
     minPrice: "",
@@ -20,22 +21,11 @@ const AdvertsPage = () => {
     owner: "",
   });
 
-  const [limit, setLimit] = useState<number>(10);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [order, setOrder] = useState<string>("asc");
-  const [sortField, setSortField] = useState<string>("name");
-  const [totalRecords, setTotalRecords] = useState<number>(0);
-
-  // Función para obtener el nombre del usuario
-  const getUserNameById = async (userId: string): Promise<string> => {
-    try {
-      const response = await api.get(`/users/${userId}`); // Endpoint para obtener usuario
-      return response.data.name || "N/A";
-    } catch (err) {
-      console.error(`Error al obtener el nombre del usuario con ID ${userId}:`, err);
-      return "N/A";
-    }
-  };
+  const [limit, setLimit] = useState<number>(10); // Registros por página
+  const [currentPage, setCurrentPage] = useState<number>(1); // Página actual
+  const [order, setOrder] = useState<string>("asc"); // Orden de los resultados
+  const [sortField, setSortField] = useState<string>("name"); // Campo para ordenar
+  const [totalRecords, setTotalRecords] = useState<number>(0); // Total de registros disponibles
 
   // Efecto para cargar los anuncios
   useEffect(() => {
@@ -45,25 +35,14 @@ const AdvertsPage = () => {
 
       try {
         const response = await getAdverts({ ...filters });
-
+        console.log(response)
         const total = response.length;
         setTotalRecords(total);
 
         const offset = (currentPage - 1) * limit;
         const paginatedAdverts = response.slice(offset, offset + limit);
 
-        // Obtener nombres de usuarios asociados a los anuncios
-        const advertsWithOwnerName = await Promise.all(
-          paginatedAdverts.map(async (advert) => {
-            const ownerName = advert.userId
-              ? await getUserNameById(advert.userId)
-              : "N/A";
-            return { ...advert, owner: ownerName };
-          })
-        );
-
-        // Ordenar los anuncios
-        const sortedAdverts = [...advertsWithOwnerName].sort((a, b) => {
+        const sortedAdverts = [...paginatedAdverts].sort((a, b) => {
           const valueA = a[sortField as keyof Advert] ?? "";
           const valueB = b[sortField as keyof Advert] ?? "";
           return order === "asc"
@@ -83,6 +62,7 @@ const AdvertsPage = () => {
     fetchAdverts();
   }, [filters, limit, currentPage, order, sortField]);
 
+  // Manejadores
   const handleFilterChange = (newFilters: FiltersType) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -122,6 +102,7 @@ const AdvertsPage = () => {
             onPageChange={handlePageChange}
             onLimitChange={handleLimitChange}
             onOrderChange={handleOrderChange}
+            sortField={sortField}
             onSortFieldChange={handleSortFieldChange}
           />
           <h2 className="text-center">Listado de productos</h2>

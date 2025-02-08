@@ -1,5 +1,6 @@
 import * as dotenv from "dotenv";
 import axios from "axios";
+import { AxiosError } from "axios";
 
 dotenv.config();
 
@@ -94,14 +95,15 @@ async function initializeAPI() {
     console.log("✅ Inicialización completada correctamente.");
 
   } catch (error) {
-    if (error.response) {
-      console.error("🔴 Status:", error.response.status);
-      console.error("📄 Data:", JSON.stringify(error.response.data, null, 2));
-      console.error("📌 Headers:", JSON.stringify(error.response.headers, null, 2));
-    } else if (error.request) {
-      console.error("🔴 No hubo respuesta de la API.");
+    const axiosError = error as AxiosError;
+    if (axiosError.response) {
+        console.error(`❌ Status:`, axiosError.response.status);
+        console.error(`❌ Data:`, JSON.stringify(axiosError.response.data, null, 2));
+        console.error(`❌ Headers:`, JSON.stringify(axiosError.response.headers, null, 2));
+    } else if (axiosError.request) {
+        console.error(`❌ No hubo respuesta de la API.`);
     } else {
-      console.error("🔴 Error en el código:", error.message);
+        console.error(`❌ Error en el código:`, axiosError.message);
     }
   }
 }

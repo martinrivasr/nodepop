@@ -78,3 +78,8 @@ export const createAdvert = async (data: CreateAdvertDto): Promise<Advert> => {
     return response.data; // Devuelve directamente la lista de anuncios
   };
 
+
+  export const getAdvertById = async (id: string): Promise<Advert> =>{
+    const response = await api.get<Advert>(`/v1/adverts/${id}`)
+    return response.data;
+  }

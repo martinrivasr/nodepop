@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createAdvert } from "../api";
 import Message from "../components/message"
-import { getTags } from "../api";
 import TagSelector from "../components/TagSelector";
 
 const NewAdvertPage = () =>{
@@ -15,7 +14,7 @@ const NewAdvertPage = () =>{
     const [message, setMessage] = useState<{type: "success" | "error" | "info";text:string} | null>(null);
     const navigate = useNavigate()
     const [isloading, setIsLoading ] = useState(false)
-    const tagList = getTags ()
+
 
     const handleSubmit = async(event: React.FormEvent) => {
         event.preventDefault();
@@ -55,12 +54,6 @@ const NewAdvertPage = () =>{
             setIsLoading(false)
         }
     };
-
-    const handleTagChange = (tag: string) =>{
-        setTags((prevTags) =>
-            prevTags.includes(tag) ? prevTags.filter((t) => t !== tag): [...prevTags, tag]
-            )
-    }
     
     return (
         <div className="container py-5">

@@ -35,7 +35,7 @@ export interface SignupDto {
     sale: boolean;
     price: number;
     tags: Tag[];
-    photoUrl?: string;
+    photo?: string;
   }
 
   export interface FiltersType {

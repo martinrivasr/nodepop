@@ -89,32 +89,36 @@ const AdvertsPage = () => {
   };
 
   return (
-    <div className="layout">
-      <aside className="aside">
-        <Filters filters={filters} onFilterChange={handleFilterChange} />
-      </aside>
-      <main className="main">
-        <div className="product-list-container">
-          <Pagination
-            totalRecords={totalRecords}
-            limit={limit}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-            onLimitChange={handleLimitChange}
-            onOrderChange={handleOrderChange}
-            sortField={sortField}
-            onSortFieldChange={handleSortFieldChange}
-          />
-          <h2 className="text-center">Listado de productos</h2>
-          {loading && <p className="text-center">Cargando anuncios...</p>}
-          {error && <p className="text-center text-danger">{error}</p>}
-          {!loading && !error && <ProductList adverts={adverts} />}
+    <section className="content d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+      <div className="layout">
+          <aside className="aside">
+            <Filters filters={filters} onFilterChange={handleFilterChange} />
+          </aside>
+          <main className="main">
+            <div className="product-list-container">
+              <Pagination
+                totalRecords={totalRecords}
+                limit={limit}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+                onLimitChange={handleLimitChange}
+                onOrderChange={handleOrderChange}
+                sortField={sortField}
+                onSortFieldChange={handleSortFieldChange}
+              />
+              <h2 className="text-center">Listado de productos</h2>
+              {loading && <p className="text-center">Cargando anuncios...</p>}
+              {error && <p className="text-center text-danger">{error}</p>}
+              {!loading && !error && <ProductList adverts={adverts} />}
+            </div>
+
+          </main>
+          <footer className="footer">
+            <Footer />
+          </footer>
         </div>
-      </main>
-      <footer className="footer">
-        <Footer />
-      </footer>
-    </div>
+    </section>
+    
   );
 };
 

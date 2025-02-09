@@ -1,20 +1,33 @@
 import React from "react";
 import { Advert } from "../models/models";
-
+import { useNavigate } from "react-router-dom";
 interface ProductListProps {
   adverts: Advert[];
 }
 
 const ProductList: React.FC<ProductListProps> = ({ adverts }) => {
+  console.log("Adverts recibidos en ProductList:", adverts);
+  const navigate = useNavigate()
+  
+  const handleSelectProduct = (id: string) => {
+    navigate(`/adverts/${id}`)
+  }
+
+  
   return (
     <section className="content">
       <div className="row">
         {adverts.map((product) => (
-          <div className="col-12 mb-3" key={product.id}>
+          <div 
+            onClick={() => handleSelectProduct(product.id)} 
+            className="col-12 mb-3" 
+            key={product.id}
+            style={{ cursor: "pointer"}}
+            >
             <div className="product bg-light border rounded-3 p-3 d-flex align-items-center">
               {/* Imagen del producto */}
               <img
-                src={product.photoUrl || "/imagen.jpg"}
+                src={product.photo || "/imagen.jpg"}
                 alt={`Foto del producto ${product.name}`}
                 className="product-image me-3"
                 style={{ width: "120px", height: "120px", objectFit: "cover", borderRadius: "8px" }}

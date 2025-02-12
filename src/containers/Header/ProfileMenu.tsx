@@ -25,8 +25,8 @@ const ProfileMenu = () => {
           </a>
         </li>
         <li>
-          <a className="dropdown-item" href="/settings">
-            Settings
+          <a className="dropdown-item" href="/adverts/new">
+            New Product
           </a>
         </li>
         <li>
@@ -35,8 +35,14 @@ const ProfileMenu = () => {
           </a>
         </li>
         <li>
+          <a className="dropdown-item" href="/settings">
+            Settings
+          </a>
+        </li>
+        <li>
           <hr className="dropdown-divider" />
         </li>
+
         <li>
           <button className="dropdown-item" onClick={() => alert("Signed out")}>
             Sign out

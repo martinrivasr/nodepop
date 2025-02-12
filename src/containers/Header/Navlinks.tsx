@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 
 const MenuItems = () => {
   const links = [
-    { to: "/", label: "Home", icon: "bi-house", color: "text-white" },
+    { to: "/adverts", label: "Home", icon: "bi-house", color: "text-white" },
     { to: "/dashboard", label: "Dashboard", icon: "bi-speedometer2", color: "text-primary" },
-    { to: "/orders", label: "Orders", icon: "bi-table", color: "text-secondary" },
     { to: "/products", label: "Products", icon: "bi-grid", color: "text-success" },
     { to: "/customers", label: "Customers", icon: "bi-person-circle", color: "text-warning" },
+    { to: "/adverts/new", label: "New order", icon: "bi-table", color: "text-secondary" },
   ];
 
   return (

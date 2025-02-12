@@ -39,10 +39,10 @@ export interface SignupDto {
   }
 
   export interface FiltersType {
-    tag?: string;
+    tag: string [];
     minPrice?: string;
     maxPrice?: string;
     name?: string;
-    owner?: string;
+    sale?: boolean;
   }
   

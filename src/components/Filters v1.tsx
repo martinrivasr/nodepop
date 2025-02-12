@@ -1,4 +1,4 @@
-import React, { useState}from "react";
+import React from "react";
 import { FiltersType } from "../models/models";
 
 interface FiltersProps {
@@ -7,34 +7,19 @@ interface FiltersProps {
 }
 
 const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange }) => {
-  const [localFilters, setLocalFilters] = useState(filters);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setLocalFilters({
-      ...localFilters,
-      [name]: name === "minPrice" || name === "maxPrice" ? (value ? Number(value) : "") : value,
-    });
+  
+    const parsedValue =
+      name === "minPrice" || name === "maxPrice" ? (value ? Number(value) : "") : value;
+  
+    onFilterChange({ ...filters, [name]: parsedValue });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault(); 
-    console.log("Enviando filtros desde Filters.tsx:", localFilters);
-    onFilterChange(localFilters);
-     
+    onFilterChange(filters); 
   };
-
-  const handleResetFilters = () =>{
-    const defaultFilters: FiltersType ={
-      tag:[],
-      minPrice:"",
-      maxPrice:"",
-      name:"",
-      sale:true,
-    }
-      setLocalFilters(defaultFilters)
-      onFilterChange(defaultFilters)
-  }
 
   return (
     <aside className="filters bg-light border rounded p-3">
@@ -57,7 +42,6 @@ const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange }) => {
                 })
               }
             >
-
             <option value="work">Work</option>
             <option value="lifestyle">Lifestyle</option>
             <option value="motor">Motor</option>
@@ -74,7 +58,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange }) => {
             name="minPrice"
             className="form-control"
             placeholder="Precio mínimo"
-            value={localFilters.minPrice}
+            value={filters.minPrice}
             onChange={handleInputChange}
           />
         </div>
@@ -88,7 +72,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange }) => {
             name="maxPrice"
             className="form-control"
             placeholder="Precio máximo"
-            value={localFilters.maxPrice}
+            value={filters.maxPrice}
             onChange={handleInputChange}
           />
         </div>
@@ -102,45 +86,27 @@ const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange }) => {
             name="name"
             className="form-control"
             placeholder="Nombre del producto"
-            value={localFilters.name}
+            value={filters.name}
             onChange={handleInputChange}
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Tipo</label>
-            <div className="mb-3">
-                <label>
-                    <input 
-                    type="radio"
-                    name="sale" 
-                    value="true"
-                    checked={localFilters.sale === true}
-                    onChange={(e) => setLocalFilters({ ...localFilters, sale: e.target.value === "true" })}
-                    />
-                    Venta
-                </label>
-                <label className="form-label mx-3">
-                    <input 
-                    type="radio" 
-                    name="sale"
-                    value="false"
-                    checked={localFilters.sale === false}
-                    onChange={(e) => setLocalFilters({ ...localFilters, sale: e.target.value === "true" })}
-                    />
-                    Compra
-                </label>
-            </div>
+          <label htmlFor="owner" className="form-label">
+            Propietario:
+          </label>
+          <input
+            type="text"
+            id="owner"
+            name="owner"
+            className="form-control"
+            placeholder="Propietario"
+            value={filters.owner}
+            onChange={handleInputChange}
+          />
         </div>
         <button type="submit" className="btn btn-primary w-100">
           Aplicar filtros
         </button>
-        <button
-            type="button"
-            className="btn btn-secondary w100 mt-2"
-            onClick={handleResetFilters}
-            >
-              Limpiar Filtros
-            </button>
       </form>
     </aside>
   );

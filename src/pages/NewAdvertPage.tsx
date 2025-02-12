@@ -54,74 +54,83 @@ const NewAdvertPage = () =>{
             setIsLoading(false)
         }
     };
+
+    const isCancelConfirmation = () => navigate(`/adverts`)
+    
     
     return (
-        <div className="container py-5">
-            <h2>Crear anuncio</h2>
-            {message && <Message type={message.type} text={message.text} />}
-            <form onSubmit={handleSubmit} className="bg-light p-4 rounded shadow">
-                <div className="mb-3">
-                    <label htmlFor="name" className="form-label">Producto</label>
-                    <input 
-                    type="text" 
-                    id="name"
-                    className="form-control" 
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="price" className="form-label">Price</label>
-                    <input 
-                    type="number"
-                    id="price"
-                    className="form-control"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Tipo</label>
-                    <div>
-                        <label>
-                            <input type="radio" 
-                            value="true"
-                            checked={sale === "true"}
-                            onChange={(e) =>setSale(e.target.value)}
-                            /> {" "}
-                            Venta
-                        </label>
-                        <label className="form-label">
-                            <input type="radio" 
-                            value="false"
-                            checked={sale === "false"}
-                            onChange={(e) => setSale(e.target.value)}
-                            />{" "}
-                            Compra
-                        </label>
+        <section className="d-flex justify-content-center align-items-center"  >
+            <div className="container py-5 " style={{ width: "40rem" }}>
+                <h2>Crear anuncio</h2>
+                {message && <Message type={message.type} text={message.text} />}
+                <form onSubmit={handleSubmit} className="bg-light p-4 rounded shadow ">
+                    <div className="product-details flex-grow-1">
+                        <label htmlFor="name" className="form-label">Producto</label>
+                        <input 
+                        type="text" 
+                        id="name"
+                        className="form-control" 
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                        />
                     </div>
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Tags</label>
-                    <TagSelector selectedTags={tags} onChange={setTags}/>
-                </div>
-                
-                <div className="mb-3">
-                    <label htmlFor="photo" className="form-label">Foto</label>
-                    <input type="file" 
-                    id="photo"
-                    className="form-control"
-                    onChange={(e) => setPhoto(e.target.files?.[0] || null)}
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary w-100" disabled={isloading}>
-                    {isloading ? "Enviando..." : "Crear Anuncio"}
-                </button>
-            </form>
-            
-        </div>
+                    <div className="mb-3">
+                        <label htmlFor="price" className="form-label">Price</label>
+                        <input 
+                        type="number"
+                        id="price"
+                        className="form-control"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Tipo</label>
+                        <div className="mb-3">
+                            <label>
+                                <input type="radio" 
+                                value="true"
+                                checked={sale === "true"}
+                                onChange={(e) =>setSale(e.target.value)}
+                                /> {" "}
+                                Venta
+                            </label>
+                            <label className="form-label">
+                                <input type="radio" 
+                                value="false"
+                                checked={sale === "false"}
+                                onChange={(e) => setSale(e.target.value)}
+                                />{" "}
+                                Compra
+                            </label>
+                        </div>
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Tags</label>
+                        <TagSelector selectedTags={tags} onChange={setTags}/>
+                    </div>
+                    
+                    <div className="mb-3">
+                        <label htmlFor="photo" className="form-label">Foto</label>
+                        <input type="file" 
+                        id="photo"
+                        className="form-control"
+                        onChange={(e) => setPhoto(e.target.files?.[0] || null)}
+                        />
+                    </div>
+                    <button type="submit" className="btn btn-primary mt-3" disabled={isloading}>
+                        {isloading ? "Enviando..." : "Crear Anuncio"}
+                    </button>
+
+                    <button onClick={isCancelConfirmation} type="submit" className="btn btn-danger mt-3 mx-3 " >
+                        cancelar
+                    </button>
+
+                </form>
+            </div>
+        </section>
     )
 }
 

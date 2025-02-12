@@ -4,6 +4,7 @@ import AdvertsPage from "./pages/AdvertsPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import NewAdvertPage from "./pages/NewAdvertPage";
+import NotFoundPage from "./pages/NotFoundPage"
 import AdvertDetailPage from "./pages/AdvertDetailPage"
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
@@ -26,7 +27,7 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path="/new-advert" element={<NewAdvertPage/>}>
+          <Route path="/adverts/new" element={<NewAdvertPage/>}>
           </Route>
           <Route
           path="/adverts/:id"
@@ -36,7 +37,7 @@ function App() {
               </PrivateRoute>  
           }
           />
-          <Route path="*" element={<h1>404 - Page Not Found</h1>} />
+          <Route path="*" element={<NotFoundPage/>} />
         </Routes>
       </Router>
     </AuthProvider>

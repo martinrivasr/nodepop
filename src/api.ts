@@ -71,8 +71,8 @@ export const createAdvert = async (data: CreateAdvertDto): Promise<Advert> => {
     if (filters.minPrice && filters.maxPrice) {
       params.price = [Number(filters.minPrice), Number(filters.maxPrice)];
     }
-    if (filters.owner) params.owner = filters.owner;
-    if (filters.tag && filters.tag !== "all") params.tags = filters.tag;
+    if (filters.sale !== undefined ) params.sale  = filters.sale
+    if (filters.tag ) params.tags = filters.tag;
   
     const response = await api.get<Advert[]>("/v1/adverts", { params });
     return response.data; // Devuelve directamente la lista de anuncios

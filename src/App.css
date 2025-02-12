@@ -78,3 +78,13 @@
   justify-content: space-between;
   margin-top: 20px;
 }
+
+.filters {
+  display: flex;
+  flex-direction: column; /* Asegura que los elementos estén en una columna */
+  align-items: stretch; /* Estira todos los elementos al mismo ancho */
+  gap: 1rem; /* Espacio uniforme entre los elementos */
+  width: 100%; /* Asegura que el contenedor ocupe su espacio asignado */
+  max-width: 20rem; /* Fija un ancho máximo para evitar cambios */
+  box-sizing: border-box; /* Incluye bordes y paddings dentro del ancho */
+}

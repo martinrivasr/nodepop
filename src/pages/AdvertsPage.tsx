@@ -14,11 +14,11 @@ const AdvertsPage = () => {
 
   // Estados para filtros, paginación y orden
   const [filters, setFilters] = useState<FiltersType>({
-    tag: "all",
+    tag: [],
     minPrice: "",
     maxPrice: "",
     name: "",
-    owner: "",
+    sale: true,
   });
 
   const [limit, setLimit] = useState<number>(10); // Registros por página
@@ -34,8 +34,15 @@ const AdvertsPage = () => {
       setError("");
 
       try {
-        const response = await getAdverts({ ...filters });
-        console.log(response)
+        const activeFilters: FiltersType = {
+          ...filters,
+          sale: filters.sale !== undefined ? filters.sale : undefined, 
+        };
+
+        
+        console.log("Filtros enviados a API:", activeFilters);
+        const response = await getAdverts(activeFilters);
+        console.log("Respuesta de la API:", response);
         const total = response.length;
         setTotalRecords(total);
 
@@ -64,6 +71,7 @@ const AdvertsPage = () => {
 
   // Manejadores
   const handleFilterChange = (newFilters: FiltersType) => {
+    console.log("Recibiendo filtros en AdvertsPage.tsx:", newFilters);
     setFilters((prevFilters) => ({
       ...prevFilters,
       ...newFilters,

@@ -18,8 +18,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange }) => {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); 
-    console.log("Enviando filtros desde Filters.tsx:", localFilters);
+    e.preventDefault();
     onFilterChange(localFilters);
      
   };
@@ -30,7 +29,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange }) => {
       minPrice:"",
       maxPrice:"",
       name:"",
-      sale:true,
+      sale:undefined,
     }
       setLocalFilters(defaultFilters)
       onFilterChange(defaultFilters)
@@ -115,9 +114,10 @@ const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange }) => {
                     name="sale" 
                     value="true"
                     checked={localFilters.sale === true}
-                    onChange={(e) => setLocalFilters({ ...localFilters, sale: e.target.value === "true" })}
+                    onChange={() => setLocalFilters({ ...localFilters, sale: true })}
+                    
                     />
-                    Venta
+                    Compra
                 </label>
                 <label className="form-label mx-3">
                     <input 
@@ -125,9 +125,9 @@ const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange }) => {
                     name="sale"
                     value="false"
                     checked={localFilters.sale === false}
-                    onChange={(e) => setLocalFilters({ ...localFilters, sale: e.target.value === "true" })}
+                    onChange={() => setLocalFilters({ ...localFilters, sale:  false })}
                     />
-                    Compra
+                    Venta
                 </label>
             </div>
         </div>

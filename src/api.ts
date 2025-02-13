@@ -19,7 +19,7 @@ export default api;
 
 export const login = async (data: LoginDto): Promise<string> => {
     const response = await api.post<{ accessToken: string }>("/auth/login", data);
-    console.log("Respuesta de la API:", response.data);
+    //console.log("Respuesta de la API:", response.data);
     return response.data.accessToken;
   };
 
@@ -75,7 +75,7 @@ export const createAdvert = async (data: CreateAdvertDto): Promise<Advert> => {
     if (filters.tag ) params.tags = filters.tag;
   
     const response = await api.get<Advert[]>("/v1/adverts", { params });
-    return response.data; // Devuelve directamente la lista de anuncios
+    return response.data;
   };
 
 

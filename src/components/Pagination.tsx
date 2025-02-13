@@ -22,36 +22,26 @@ const Pagination: React.FC<PaginationProps> = ({
   onSortFieldChange,
 }) => {
   const totalPages = Math.ceil(totalRecords / limit);
-  const [pageBatch, setPageBatch] = useState(0); // Batch de páginas visible (0 = 1-10, 1 = 11-20)
+  const [pageBatch, setPageBatch] = useState(0); 
 
-  const maxVisiblePages = 10; // Máximo de páginas visibles por lote
-  const startPage = pageBatch * maxVisiblePages + 1; // Página inicial del lote
-  const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages); // Página final del lote
+  const maxVisiblePages = 10; 
+  const startPage = pageBatch * maxVisiblePages + 1; 
+  const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages); 
 
   const handlePageChange = (page: number) => {
+    console.log("pagina actual : ", page)
+    console.log("total paginas :" , totalPages)
     if (page > 0 && page <= totalPages) {
       onPageChange(page);
-
-      // Cambiar el batch si la página está fuera del rango actual
-      if (page < startPage) {
-        setPageBatch((prev) => Math.max(prev - 1, 0));
-      } else if (page > endPage) {
-        setPageBatch((prev) => prev + 1);
+      console.log("onPageChange :" , page)
+      const newBatch = Math.floor((page - 1) / maxVisiblePages); 
+      
+      if (newBatch !== pageBatch) {
+        setPageBatch(newBatch);
       }
     }
   };
 
-  const handleNextBatch = () => {
-    if (endPage < totalPages) {
-      setPageBatch((prev) => prev + 1);
-    }
-  };
-
-  const handlePrevBatch = () => {
-    if (startPage > 1) {
-      setPageBatch((prev) => Math.max(prev - 1, 0));
-    }
-  };
 
   return (
     <div className="d-flex flex-wrap align-items-center justify-content-between border-bottom pb-2 mb-3 bg-body-tertiary px-3 py-2">
@@ -97,11 +87,12 @@ const Pagination: React.FC<PaginationProps> = ({
         <span className="text-muted">Total registros: {totalRecords}</span>
         <nav aria-label="Page navigation">
           <ul className="pagination mb-0">
-            <li className={`page-item ${startPage === 1 ? "disabled" : ""}`}>
+            <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
               <button
                 className="page-link text-secondary"
-                onClick={handlePrevBatch}
+                onClick={() => handlePageChange(currentPage - 1)}
               >
+                Anterior
                 &laquo;
               </button>
             </li>
@@ -123,11 +114,12 @@ const Pagination: React.FC<PaginationProps> = ({
                 </li>
               );
             })}
-            <li className={`page-item ${endPage === totalPages ? "disabled" : ""}`}>
+            <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
               <button
                 className="page-link text-secondary"
-                onClick={handleNextBatch}
+                onClick={() => handlePageChange(currentPage + 1 )}
               >
+                siguiente
                 &raquo;
               </button>
             </li>

@@ -18,7 +18,7 @@ const AdvertsPage = () => {
     minPrice: "",
     maxPrice: "",
     name: "",
-    sale: true,
+    sale: undefined,
   });
 
   const [limit, setLimit] = useState<number>(10); // Registros por página
@@ -38,26 +38,31 @@ const AdvertsPage = () => {
           ...filters,
           sale: filters.sale !== undefined ? filters.sale : undefined, 
         };
-
-        
-        console.log("Filtros enviados a API:", activeFilters);
         const response = await getAdverts(activeFilters);
-        console.log("Respuesta de la API:", response);
+
         const total = response.length;
+        
         setTotalRecords(total);
 
-        const offset = (currentPage - 1) * limit;
-        const paginatedAdverts = response.slice(offset, offset + limit);
+        const sortedAdverts = [...response].sort((a, b) => {
+          let valueA = a[sortField as keyof Advert] ?? "";
+          let valueB = b[sortField as keyof Advert] ?? "";
 
-        const sortedAdverts = [...paginatedAdverts].sort((a, b) => {
-          const valueA = a[sortField as keyof Advert] ?? "";
-          const valueB = b[sortField as keyof Advert] ?? "";
+          if (sortField === "price"){
+            valueA = Number(valueA) || 0;
+            valueB = Number(valueB) || 0;
+            return order === "asc" ? valueA - valueB : valueB - valueA;
+          }
+          
           return order === "asc"
             ? String(valueA).localeCompare(String(valueB))
             : String(valueB).localeCompare(String(valueA));
         });
 
-        setAdverts(sortedAdverts);
+        const offset = (currentPage - 1) * limit;
+        const paginatedAdverts = sortedAdverts.slice(offset, offset + limit);
+      
+        setAdverts(paginatedAdverts);
       } catch (err) {
         console.error("Error al cargar los anuncios:", err);
         setError("Error al cargar los anuncios. Por favor, intenta de nuevo.");
@@ -71,7 +76,7 @@ const AdvertsPage = () => {
 
   // Manejadores
   const handleFilterChange = (newFilters: FiltersType) => {
-    console.log("Recibiendo filtros en AdvertsPage.tsx:", newFilters);
+   
     setFilters((prevFilters) => ({
       ...prevFilters,
       ...newFilters,
@@ -87,12 +92,15 @@ const AdvertsPage = () => {
   };
 
   const handleOrderChange = (newOrder: string) => {
+    console.log("Cambiando orden a:", newOrder);
     setOrder(newOrder);
     setCurrentPage(1);
   };
 
   const handleSortFieldChange = (field: string) => {
+    console.log("Cambiando campo de orden a:", field);
     setSortField(field);
+    setOrder("asc")
     setCurrentPage(1);
   };
 
@@ -117,6 +125,7 @@ const AdvertsPage = () => {
               <h2 className="text-center">Listado de productos</h2>
               {loading && <p className="text-center">Cargando anuncios...</p>}
               {error && <p className="text-center text-danger">{error}</p>}
+              <p>Ordenando por: <strong>{sortField}</strong> | Orden: <strong>{order}</strong></p>
               {!loading && !error && <ProductList adverts={adverts} />}
             </div>
 

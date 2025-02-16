@@ -1,89 +1,73 @@
-Nodepop
+# Nodepop
 
-Descripción
+## Descripción
+**Nodepop** es una aplicación desarrollada con **React** y **Node.js** para la publicación y gestión de productos en venta. Utiliza tecnologías modernas como **Vite** para el desarrollo rápido, **TypeScript** para tipado seguro y una base de datos gestionada con scripts personalizados.
 
-Nodepop es una aplicación desarrollada con React y Node.js para la publicación y gestión de productos en venta. Utiliza tecnologías modernas como Vite para el desarrollo rápido, TypeScript para tipado seguro y una base de datos gestionada con scripts personalizados.
-
-Instalación
-
+## Instalación
 Para instalar las dependencias del proyecto, ejecuta:
-
+```sh
 npm install
+```
 
-Scripts Disponibles
+## Scripts Disponibles
+Los siguientes scripts están disponibles en el archivo `package.json`:
 
-Los siguientes scripts están disponibles en el archivo package.json:
-
-Desarrollo
-
+### Desarrollo
+```sh
 npm run dev
+```
+Inicia el entorno de desarrollo con **Vite**.
 
-Inicia el entorno de desarrollo con Vite.
-
-Construcción
-
+### Construcción
+```sh
 npm run build
+```
+Compila el código **TypeScript** y construye la aplicación con **Vite**.
 
-Compila el código TypeScript y construye la aplicación con Vite.
-
-Linter
-
+### Linter
+```sh
 npm run lint
+```
+Ejecuta **ESLint** para verificar el código en busca de errores y asegurar buenas prácticas.
 
-Ejecuta ESLint para verificar el código en busca de errores y asegurar buenas prácticas.
-
-Vista previa de la compilación
-
+### Vista previa de la compilación
+```sh
 npm run preview
-
+```
 Ejecuta la versión compilada de la aplicación.
 
-Inicialización de la base de datos
-
+### Inicialización de la base de datos
+```sh
 npm run build:initDB
 npm run initDB:api
-
+```
 Compila el script de inicialización de la base de datos y lo ejecuta.
 
-Dependencias Principales
+## Dependencias Principales
+- **react** y **react-dom**: Librería y núcleo de React.
+- **react-router-dom**: Gestión de rutas en la aplicación.
+- **axios**: Cliente HTTP para solicitudes a la API.
+- **bootstrap** y **bootstrap-icons**: Estilos y componentes para la UI.
+- **dotenv**: Manejo de variables de entorno.
 
-react y react-dom: Librería y núcleo de React.
+## Dependencias de Desarrollo
+- **vite**: Herramienta de desarrollo rápida para React.
+- **typescript**: Tipado estático para JavaScript.
+- **eslint**, **prettier**: Herramientas de linting y formateo.
+- **@vitejs/plugin-react**: Plugin de Vite para React.
 
-react-router-dom: Gestión de rutas en la aplicación.
+## Estructura del Proyecto
+```
+nodepop
+ ┣ src/           # Código fuente de la aplicación
+ ┣ dist/          # Archivos generados tras la compilación
+ ┣ package.json   # Configuración del proyecto y dependencias
+ ┣ .eslintrc.js   # Configuración de ESLint
+ ┗ .prettierrc    # Configuración de Prettier
+```
 
-axios: Cliente HTTP para solicitudes a la API.
+## Contribución
+Si deseas contribuir al proyecto, abre un **pull request** o reporta un **issue** en el repositorio oficial.
 
-bootstrap y bootstrap-icons: Estilos y componentes para la UI.
-
-dotenv: Manejo de variables de entorno.
-
-Dependencias de Desarrollo
-
-vite: Herramienta de desarrollo rápida para React.
-
-typescript: Tipado estático para JavaScript.
-
-eslint, prettier: Herramientas de linting y formateo.
-
-@vitejs/plugin-react: Plugin de Vite para React.
-
-Estructura del Proyecto
-
-src/ - Código fuente de la aplicación.
-
-dist/ - Archivos generados tras la compilación.
-
-package.json - Configuración del proyecto y dependencias.
-
-.eslintrc.js - Configuración de ESLint.
-
-.prettierrc - Configuración de Prettier.
-
-Contribución
-
-Si deseas contribuir al proyecto, abre un pull request o reporta un issue en el repositorio oficial.
-
-Licencia
-
-Este proyecto está bajo la licencia MIT.
-
+## Licencia
+Este proyecto está bajo la licencia **MIT**.

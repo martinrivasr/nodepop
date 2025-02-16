@@ -24,6 +24,10 @@ npm run build
 ```
 Compila el código **TypeScript** y construye la aplicación con **Vite**.
 
+### .env file
+crear el archivo .env con la direccion de la API
+
+
 ### Linter
 ```sh
 npm run lint
@@ -42,6 +46,10 @@ npm run build:initDB
 npm run initDB:api
 ```
 Compila el script de inicialización de la base de datos y lo ejecuta.
+
+
+### ventanas emergentes.
+Durante la primera ejecucion, es necesario permitir las ventanas emergentes.
 
 ## Dependencias Principales
 - **react** y **react-dom**: Librería y núcleo de React.

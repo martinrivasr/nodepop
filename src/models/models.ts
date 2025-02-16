@@ -1,4 +1,15 @@
+//modelo para las credenciales
 
+export interface Credentials {
+  email: string;
+  password: string;
+}
+
+//modelo para el token
+
+export interface Login{
+  accessToken: string;
+}
 
 // Modelo para SignupDto
 export interface SignupDto {
@@ -31,13 +42,14 @@ export interface SignupDto {
     id: string;
     name: string;
     owner?: string;
-    ownerName?: string; // Nuevo campo para mostrar el nombre
+    ownerName?: string; 
     sale: boolean;
     price: number;
     tags: Tag[];
     photo?: string;
   }
 
+  //Modelo para los filtros
   export interface FiltersType {
     tag: string [];
     minPrice?: string;
@@ -46,3 +58,8 @@ export interface SignupDto {
     sale?: boolean;
   }
   
+  //modelo de adverts response
+  export interface AdvertsResponse {
+    adverts: Advert[]; 
+    total?: number; 
+  }

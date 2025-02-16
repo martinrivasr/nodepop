@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createAdvert } from "../api";
+import { createAdvert } from "../services/api";
 import Message from "../components/message"
 import TagSelector from "../components/TagSelector";
 

@@ -1,32 +1,63 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { login as loginApi } from "../api";
-import { useAuth } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { login as loginApi } from "../services/api";
+import { useAuth } from "../auth/context";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import Message from "../components/message";
+import { ApiClientError } from "../utils/error";
+import { isApiClientError } from "../services/connection";
+import { createPortal } from "react-dom";
+import portalStyles from "../utils/portalStyles"
+import FormField from "../components/inputForm";
+import storage from "../utils/storage";
+
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState<{ type: "success" | "error" | "info"; text: string } | null>(null);
-  const { login } = useAuth();
+  const location = useLocation()
   const navigate = useNavigate();
+  const [credentials, setCredentials] = useState(() => ({
+    email: "",
+    password: "",
+  }));
+  const [error, setError] = useState<ApiClientError | null>(null);
+  const [isLoading, setIsLoading ] = useState(false)
+  const [rememberMe, setRememberMe ] = useState(false)
+  const [message, setMessage] = useState<{ type: "success" | "error" | "info"; text: string } | null>(null);
+  const { onLogin } = useAuth();
 
-  const handleSubmit = async (event: React.FormEvent) => {
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const token = await loginApi({ email, password });
+      setIsLoading(true);
+      const response = await loginApi(credentials);
+      console.log("respuesta de API",response)
       setMessage({ type: "success", text: "Inicio de sesión exitoso. Redirigiendo..." });
-      console.log("Token recibido:", token); 
-      login(token);
-      localStorage.setItem("token", token); 
-      navigate("/adverts"); 
-      console.log("Redirección a /adverts ejecutada");
-
+      onLogin();
+      storage.set("rememberLogin", rememberMe.toString());
+      const to = location.state?.from ?? "/adverts"
+      navigate(to, { replace: true}); 
     } catch (error) {
+      if(isApiClientError(error)){
+        setError(error)
+      }
       setMessage({ type: "error", text: "Credenciales incorrectas. Intenta nuevamente." });
+    } finally{
+      setIsLoading(false)
     }
   };
+
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCredentials((credentials) => {
+      return { ...credentials, [event.target.name]: event.target.value };
+    });
+  };
+
+  const handleRememberMe = () =>{
+    setRememberMe((prev) => !prev)
+  } 
+
+  const { email, password } = credentials;
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
@@ -37,38 +68,29 @@ const LoginPage = () => {
         </div>
         {message && <Message type={message.type} text={message.text} />}
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email address
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="form-control"
+          <FormField
+              type="text"
+              name="email"
+              label="Email address"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
+              onChange={handleChange}
+          /> 
+          <FormField
               type="password"
-              id="password"
-              className="form-control"
+              name="password"
+              label="Password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
+              onChange={handleChange}
+          />
+      
           <div className="d-flex justify-content-between align-items-center mb-3">
             <div className="form-check">
               <input
+                className="form-check-input"
                 type="checkbox"
                 id="rememberMe"
-                className="form-check-input"
+                checked={rememberMe}
+                onChange={handleRememberMe}
               />
               <label htmlFor="rememberMe" className="form-check-label">
                 Remember me
@@ -78,7 +100,10 @@ const LoginPage = () => {
               Forgot password?
             </a>
           </div>
-          <button type="submit" className="btn btn-primary w-100 mb-3">
+          <button 
+            type="submit" 
+            className="btn btn-primary w-100 mb-3"
+            >
             Sign in
           </button>
         </form>
@@ -102,4 +127,21 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default function LoginPagePortal() {
+  const portalContainer = useRef<HTMLDivElement>(document.createElement("div"));
+
+  useEffect(() => {
+    portalContainer.current.className = "container";
+
+    const externalWindow = window.open("", "", "width=400, height=550");
+
+    externalWindow?.document.body.appendChild(portalContainer.current);
+    portalStyles(window.document, externalWindow!.document);
+
+    return () => {
+      externalWindow?.close();
+    };
+  }, []);
+
+  return createPortal(<LoginPage />, portalContainer.current);
+}

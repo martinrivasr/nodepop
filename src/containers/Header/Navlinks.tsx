@@ -7,7 +7,7 @@ const MenuItems = () => {
     { to: "/dashboard", label: "Dashboard", icon: "bi-speedometer2", color: "text-primary" },
     { to: "/products", label: "Products", icon: "bi-grid", color: "text-success" },
     { to: "/customers", label: "Customers", icon: "bi-person-circle", color: "text-warning" },
-    { to: "/adverts/new", label: "New order", icon: "bi-table", color: "text-secondary" },
+    { to: "/adverts/new", label: "New Nuevo anuncio", icon: "bi-table", color: "text-secondary" },
   ];
 
   return (

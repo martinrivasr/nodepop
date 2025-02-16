@@ -1,10 +1,11 @@
 import MenuItems from "./Navlinks";
 import LanguageSelector from "./LanguageSelector";
 import ProfileMenu from "./ProfileMenu";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../auth/context";
+import AuthButton from "../../auth/AuthButton"
 
 const Navbar = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { isLogged } = useAuth();
   return (
     <header className="navbar navbar-expand-lg navbar-dark bg-dark px-3 border-warning border-4">
       <div className="container-fluid d-flex align-items-center justify-content-between border-success border-4">
@@ -15,7 +16,7 @@ const Navbar = () => {
         </a>
 
         {/* Menú principal */}
-        {isAuthenticated && (
+        {isLogged && (
           <div className="d-flex align-items-center ms-auto ">
             <MenuItems />
           </div>
@@ -27,18 +28,12 @@ const Navbar = () => {
         </div>
 
         {/* Menú de perfil */}
-        {isAuthenticated ? (
+        {isLogged && (
           <div className="d-flex align-items-center ms-3">
             <ProfileMenu />
-            <button className="btn btn-outline-light ms-3" onClick={logout}>
-              Logout
-            </button>
           </div>
-        ) : (
-          <a href="/login" className="btn btn-primary ms-auto">
-            Login
-          </a>
         )}
+        <AuthButton />
       </div>
     </header>
   );

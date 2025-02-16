@@ -6,7 +6,6 @@ interface ProductListProps {
 }
 
 const ProductList: React.FC<ProductListProps> = ({ adverts }) => {
- // console.log("Adverts recibidos en ProductList:", adverts);
   const navigate = useNavigate()
   
   const handleSelectProduct = (id: string) => {

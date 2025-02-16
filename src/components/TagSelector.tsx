@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getTags } from "../api";
+import { getTags } from "../services/api";
 
 interface TagSelectorProps{
     selectedTags:string[];

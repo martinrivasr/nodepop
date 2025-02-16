@@ -52,20 +52,17 @@ async function initializeAPI() {
     for (let i = 0; i < users.length; i++) {
       const user = users[i];
       console.log("usuario a crear", user)
-      // 1️⃣ Crear usuario
+      // Crear usuario
       await axios.post(`${API_BASE_URL}/auth/signup`, user);
       console.log(`Usuario creado: ${user.email}`);
 
-      // 2️⃣ Iniciar sesión para obtener token
+      // Iniciar sesión para obtener token
       const loginResponse = await axios.post(`${API_BASE_URL}/auth/login`, {
         email: user.email,
         password: user.password,
       });
 
       const token = loginResponse.data.accessToken;
-      console.log(`Token generado para ${user.email}: ${token}`);
-
-      // 3️⃣ Definir la cantidad de productos según las reglas
       let minProducts, maxProducts;
 
       if (i < 5) {
@@ -79,10 +76,8 @@ async function initializeAPI() {
         maxProducts = 30;
       }
 
-      // 4️⃣ Crear productos para este usuario
-      console.log("productos minimos", minProducts)
       const products = getRandomProducts( minProducts, maxProducts);
-      console.log("productos", products)
+
       for (const product of products) {
         await axios.post(`${API_BASE_URL}/v1/adverts`, product, {
           headers: { Authorization: `Bearer ${token}` },

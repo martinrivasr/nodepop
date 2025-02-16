@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { signup } from "../api";
+import { signup } from "../services/api";
 import Message from "../components/message";
 
 const SignupPage = () => {

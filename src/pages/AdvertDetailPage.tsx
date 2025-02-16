@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getAdvertById, deleteAdvert } from "../api";
+import { getAdvertById, deleteAdvert } from "../services/api";
 import Message from "../components/message";
 
 const AdvertDetailPage: React.FC = () => {
@@ -16,7 +16,7 @@ const AdvertDetailPage: React.FC = () => {
         const data = await getAdvertById(id!);
         setAdvert(data);
       } catch (error) {
-        setMessage({ type: "error", text: "Error al cargar el anuncio" });
+        setMessage({ type: "error", text: "Error al cargar el anuncio, el anuncio no existe" });
       }
     };
     fetchAdverts();
@@ -36,7 +36,16 @@ const AdvertDetailPage: React.FC = () => {
   const closeConfirmation = () => setShowConfirmation(false);
   const isCancelConfirmation = () => navigate(`/adverts`)
 
-  if (!advert) return <p>Cargando anuncio...</p>;
+  if (!advert) {
+    return (
+      <div className="container py-5">
+        {message && <Message type={message.type} text={message.text} />}
+        <button onClick={isCancelConfirmation} type="submit" className="btn btn-primary mt-3 mx-3 " >
+            Regresar a inicio
+        </button>
+      </div>
+    );
+  }
 
   return (
     <section className="content">
@@ -64,8 +73,8 @@ const AdvertDetailPage: React.FC = () => {
                             ))}
                         </div>
                         <button onClick={openConfirmation} className="btn btn-danger mt-3">Eliminar</button>
-                        <button onClick={isCancelConfirmation} type="submit" className="btn btn-primary mt-3 mx-3 " >
-                        cancelar
+                        <button onClick={isCancelConfirmation} type="submit" className="btn btn-secondary mt-3 mx-3 " >
+                        Regresar a inicio
                     </button>
                     </div>
                 </div>
@@ -76,7 +85,7 @@ const AdvertDetailPage: React.FC = () => {
                 <p>¿Estás seguro de que deseas eliminar este anuncio?</p>
                 <div>
                 <button onClick={handleDelete} className="btn btn-danger me-2">Confirmar</button>
-                <button onClick={closeConfirmation} className="btn btn-secondary">Cancelar</button>
+                <button onClick={closeConfirmation} className="btn btn-secondary">Cancela</button>
                 </div>
             </div>
             )}

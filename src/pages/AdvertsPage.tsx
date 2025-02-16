@@ -3,7 +3,7 @@ import Pagination from "../components/Pagination";
 import ProductList from "../components/ProductList";
 import Filters from "../components/Filters";
 import Footer from "../components/footer";
-import { getAdverts } from "../api";
+import { getAdverts } from "../services/api";
 import { FiltersType, Advert } from "../models/models";
 
 
@@ -12,7 +12,7 @@ const AdvertsPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Estados para filtros, paginación y orden
+
   const [filters, setFilters] = useState<FiltersType>({
     tag: [],
     minPrice: "",
@@ -21,13 +21,13 @@ const AdvertsPage = () => {
     sale: undefined,
   });
 
-  const [limit, setLimit] = useState<number>(10); // Registros por página
-  const [currentPage, setCurrentPage] = useState<number>(1); // Página actual
-  const [order, setOrder] = useState<string>("asc"); // Orden de los resultados
-  const [sortField, setSortField] = useState<string>("name"); // Campo para ordenar
-  const [totalRecords, setTotalRecords] = useState<number>(0); // Total de registros disponibles
+  const [limit, setLimit] = useState<number>(10); 
+  const [currentPage, setCurrentPage] = useState<number>(1); 
+  const [order, setOrder] = useState<string>("asc"); 
+  const [sortField, setSortField] = useState<string>("name"); 
+  const [totalRecords, setTotalRecords] = useState<number>(0); 
 
-  // Efecto para cargar los anuncios
+
   useEffect(() => {
     const fetchAdverts = async () => {
       setLoading(true);
@@ -38,8 +38,9 @@ const AdvertsPage = () => {
           ...filters,
           sale: filters.sale !== undefined ? filters.sale : undefined, 
         };
+        console.log("entrado a getadverts")
         const response = await getAdverts(activeFilters);
-
+        console.log("total Advertrs recibidos", response)
         const total = response.length;
         
         setTotalRecords(total);
@@ -74,7 +75,7 @@ const AdvertsPage = () => {
     fetchAdverts();
   }, [filters, limit, currentPage, order, sortField]);
 
-  // Manejadores
+
   const handleFilterChange = (newFilters: FiltersType) => {
    
     setFilters((prevFilters) => ({

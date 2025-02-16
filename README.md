@@ -1,50 +1,89 @@
-# React + TypeScript + Vite
+Nodepop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Descripción
 
-Currently, two official plugins are available:
+Nodepop es una aplicación desarrollada con React y Node.js para la publicación y gestión de productos en venta. Utiliza tecnologías modernas como Vite para el desarrollo rápido, TypeScript para tipado seguro y una base de datos gestionada con scripts personalizados.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Instalación
 
-## Expanding the ESLint configuration
+Para instalar las dependencias del proyecto, ejecuta:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+npm install
 
-- Configure the top-level `parserOptions` property like this:
+Scripts Disponibles
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Los siguientes scripts están disponibles en el archivo package.json:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Desarrollo
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+npm run dev
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Inicia el entorno de desarrollo con Vite.
+
+Construcción
+
+npm run build
+
+Compila el código TypeScript y construye la aplicación con Vite.
+
+Linter
+
+npm run lint
+
+Ejecuta ESLint para verificar el código en busca de errores y asegurar buenas prácticas.
+
+Vista previa de la compilación
+
+npm run preview
+
+Ejecuta la versión compilada de la aplicación.
+
+Inicialización de la base de datos
+
+npm run build:initDB
+npm run initDB:api
+
+Compila el script de inicialización de la base de datos y lo ejecuta.
+
+Dependencias Principales
+
+react y react-dom: Librería y núcleo de React.
+
+react-router-dom: Gestión de rutas en la aplicación.
+
+axios: Cliente HTTP para solicitudes a la API.
+
+bootstrap y bootstrap-icons: Estilos y componentes para la UI.
+
+dotenv: Manejo de variables de entorno.
+
+Dependencias de Desarrollo
+
+vite: Herramienta de desarrollo rápida para React.
+
+typescript: Tipado estático para JavaScript.
+
+eslint, prettier: Herramientas de linting y formateo.
+
+@vitejs/plugin-react: Plugin de Vite para React.
+
+Estructura del Proyecto
+
+src/ - Código fuente de la aplicación.
+
+dist/ - Archivos generados tras la compilación.
+
+package.json - Configuración del proyecto y dependencias.
+
+.eslintrc.js - Configuración de ESLint.
+
+.prettierrc - Configuración de Prettier.
+
+Contribución
+
+Si deseas contribuir al proyecto, abre un pull request o reporta un issue en el repositorio oficial.
+
+Licencia
+
+Este proyecto está bajo la licencia MIT.
+

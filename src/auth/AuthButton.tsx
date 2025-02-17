@@ -8,8 +8,11 @@ export default function AuthButton() {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    console.log(" Click en Login - Navegando a /login");
-    navigate("/login", { replace: true });
+    console.log("Estado de islogged al presionar el boton de login: ", isLogged)
+    if (!isLogged){
+      console.log(" Click en Login - Navegando a /login");
+      navigate("/login");
+    }
   };
 
 

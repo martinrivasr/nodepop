@@ -30,8 +30,11 @@ export function AuthProvider ({ defaultIsLogged, children }: Props){
         console.log("Estado de rememberMe en logout:", rememberMe);
         if (!rememberMe) {
             storage.remove("auth");
+            setIsLogged(false);
+        } else {
+            setIsLogged(false);
         }
-        setIsLogged(false);
+        
     }
 
     const authValue = {

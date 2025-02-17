@@ -7,11 +7,9 @@ import NotFoundPage from "./pages/NotFoundPage"
 import AdvertDetailPage from "./pages/AdvertDetailPage"
 import RequireAuth from "./auth/requireAuth";
 import { AuthProvider} from "./auth/autoProvider"
-import { lazy, Suspense, useState } from "react"
 import ErrorBoundary from "./components/ErrorBoundary";
+import LoginPagePortal from "./pages/LoginPage";
 
-
-const LoginPage = lazy(() => import("./pages/LoginPage"))
 
 function App() {
 
@@ -23,9 +21,7 @@ function App() {
             <Route 
               path="/login" 
               element={
-                <Suspense fallback={<div>Loading...</div>}>
-                  <LoginPage />
-                </Suspense>
+                  <LoginPagePortal />
               } 
             />
             <Route path="/signup" element={<SignupPage />} />
